@@ -9,8 +9,27 @@ import { Vortex } from "@/components/ui/vortex";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { Boxes } from "@/components/ui/background-boxes"; // retained if needed elsewhere
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
 const Hero = () => {
+  const words = [
+    {
+      text: "Hi,",
+    },
+    {
+      text: "I'm",
+    },
+    {
+      text: "Kartikey",
+      className: "text-primary dark:text-primary",
+    },
+    {
+      text: "Katyal",
+      className: "text-primary dark:text-primary",
+    },
+  ];
+
   return (
         <section
             id="hero"
@@ -54,12 +73,13 @@ const Hero = () => {
                                 <span className="mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1 text-xs font-medium tracking-wide text-primary/90 shadow-sm backdrop-blur-sm">
                                     <span className="size-2 rounded-full bg-primary animate-pulse" /> Open to opportunities
                                 </span>
-                                <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">
-                                    Hi, I'm <span className="text-primary">Kartikey Katyal</span>
-                                </h1>
-                                <p className="mb-8 max-w-xl text-base text-muted-foreground md:text-xl">
-                                    Full Stack Developer focused on building performant, accessible & delightful web experiences using modern TypeScript / React stacks.
-                                </p>
+                                <div className="mb-6">
+                                    <TypewriterEffectSmooth words={words} />
+                                </div>
+                                <TextGenerateEffect 
+                                    words="Full Stack Developer focused on building performant, accessible & delightful web experiences using modern TypeScript / React stacks."
+                                    className="mb-8 max-w-xl text-base text-muted-foreground md:text-xl"
+                                />
                                 <div className="mb-10 flex flex-wrap gap-3">
                                     {[
                                       "Next.js",

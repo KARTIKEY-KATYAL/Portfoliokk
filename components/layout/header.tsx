@@ -5,6 +5,7 @@ import { Download, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { FloatingNav } from "@/components/ui/floating-navbar";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,6 +24,13 @@ const Header = () => {
     { label: "Skills", href: "#skills" },
     { label: "Project", href: "#projects" },
     { label: "Contact", href: "#contact" },
+  ];
+
+  const navItems = [
+    { name: "About", link: "#about" },
+    { name: "Skills", link: "#skills" },
+    { name: "Projects", link: "#projects" },
+    { name: "Contact", link: "#contact" },
   ];
 
   const handleResumeDownload = () => {
@@ -46,6 +54,8 @@ const Header = () => {
   };
 
   return (
+    <>
+      <FloatingNav navItems={navItems} />
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? "bg-background/80 backdrop-blur-md border-b" : "bg-background/40 backdrop-blur-sm"
@@ -122,6 +132,7 @@ const Header = () => {
         )}
       </AnimatePresence>
     </header>
+    </>
   );
 };
 
