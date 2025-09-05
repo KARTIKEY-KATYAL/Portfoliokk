@@ -4,11 +4,7 @@ import Contact from "@/components/sections/Contact";
 import Hero from "@/components/sections/Hero";
 import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";
-import About from "@/components/sections/About";
 import Experience from "@/components/sections/Experience";
-// import Testimonials from "@/components/sections/Testimonials";
-// import FAQ from "@/components/sections/FAQ";
-
 import { motion } from "framer-motion";
 
 
@@ -16,12 +12,9 @@ export default function Home() {
   return (
  <main className="min-h-screen w-full bg-background">
   <Hero/>
-  <About/>
   <Skills/>
   <Experience/>
   <Projects/>
-  {/* <Testimonials/> */}
-  {/* Github Stats Section */}
 
   <section className="container mx-auto px-4 py-20">
       <h2 className="text-3xl font-bold mb-12 text-center">
