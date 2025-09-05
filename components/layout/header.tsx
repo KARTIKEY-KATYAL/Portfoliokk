@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Menu, X, Command } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +11,6 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string>("#about");
-  const hasMounted = useRef(false);
 
   // Track scroll position for header style & floating nav animation
   useEffect(() => {
@@ -23,31 +22,42 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scrollspy: highlight active section
+  // Scrollspy (manual measurement for consistent highlighting)
   useEffect(() => {
-  const ids = ["#about", "#skills", "#projects", "#contact"] as const;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = `#${entry.target.id}`;
-            if ((ids as readonly string[]).includes(id)) {
-              setActiveId(id);
-            }
-          }
-        });
-      },
-      { rootMargin: "0px 0px -45% 0px", threshold: 0.35 },
-    );
-    ids.forEach((id) => {
-      const el = document.querySelector(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
+    const ids = ["about", "skills", "projects", "contact"];
+    let ticking = false;
+    const HEADER_OFFSET = 90;
 
-  // Mark mount to avoid hydration flash logic differences
-  useEffect(() => { hasMounted.current = true; }, []);
+    const calc = () => {
+      const scrollPos = window.scrollY + HEADER_OFFSET + window.innerHeight * 0.15; // bias toward upper viewport
+      let current = "#about";
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.offsetTop <= scrollPos) {
+          current = `#${id}`;
+        }
+      }
+      setActiveId((prev) => (prev === current ? prev : current));
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          calc();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    calc();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   const menuItems: { label: string; href: string }[] = [
     { label: "About", href: "#about" },
