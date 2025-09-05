@@ -59,7 +59,7 @@ const Projects = () => {
       </div>
 
   <motion.div
-    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
     variants={containerVariants}
     initial="hidden"
     whileInView="show"
@@ -114,7 +114,7 @@ const Projects = () => {
                   <span className="absolute -inset-x-2 -top-2 h-[120%] origin-left scale-x-0 bg-gradient-to-r from-primary/10 to-transparent blur-sm transition-transform duration-500 group-hover:scale-x-100" />
                   {project.title}
                 </h3>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 text-sm md:text-base leading-relaxed">
                   {project.description}
                 </p>
 
@@ -128,10 +128,10 @@ const Projects = () => {
                             ))
                         }
                     </div>
-                    <ul className="space-y-2">
+          <ul className="space-y-2">
                         {
-                            project.features.map((feature)=>(
-                                <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+              project.features.map((feature)=>(
+                <li key={feature} className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
                                     <Check className="w-4 h-4 text-green-500"/>
                                     {feature}
                                 </li>

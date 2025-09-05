@@ -53,7 +53,7 @@ export default function Experience() {
     })
   };
   return (
-    <section id="experience" className="relative w-full overflow-hidden py-20">
+  <section id="experience" className="relative w-full overflow-hidden py-16 md:py-20">
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_85%)]">
         <BackgroundBeams />
       </div>
@@ -65,8 +65,8 @@ export default function Experience() {
           transition={{ duration: 0.55 }}
           style={{ marginLeft: "auto", marginRight: "auto", marginBottom: "3.5rem", maxWidth: "48rem", textAlign: "center" }}
         >
-          <BackgroundGradient className="rounded-3xl p-10 bg-background/70 backdrop-blur-xl border border-border/40">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional <span className="text-primary">Experience</span></h2>
+          <BackgroundGradient className="rounded-3xl p-8 md:p-10 bg-background/70 backdrop-blur-xl border border-border/40">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Professional <span className="text-primary">Experience</span></h2>
             <p className="text-muted-foreground">A snapshot of roles, impact, and the technologies I use to ship value.</p>
           </BackgroundGradient>
         </motion.div>

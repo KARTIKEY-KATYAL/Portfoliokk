@@ -40,7 +40,7 @@ const Skills = () => {
       <motion.ul
         ref={ref}
         style={{ y: parallax }}
-        className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8'
+        className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 sm:gap-6 md:gap-8'
         initial='hidden'
         whileInView='visible'
         viewport={{ once: true, amount: 0.25 }}
@@ -69,7 +69,7 @@ const Skills = () => {
                 width={56}
                 height={56}
                 loading='lazy'
-                className='mb-2 drop-shadow-sm group-hover:drop-shadow filter-saturate-150 transition-transform duration-500 group-hover:scale-110'
+                className='mb-2 h-12 w-12 md:h-14 md:w-14 drop-shadow-sm group-hover:drop-shadow filter-saturate-150 transition-transform duration-500 group-hover:scale-110'
               />
               <span className='text-xs md:text-sm font-medium text-center'>{tech.name}</span>
             </Card>

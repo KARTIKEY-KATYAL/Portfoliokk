@@ -14,18 +14,18 @@ const Contact = () => {
     show: (i: number) => ({ opacity: 1, y: 0, transition: { delay: i * 0.08, type: 'spring', stiffness: 250, damping: 22 } })
   };
   return (
-    <section id="contact" className="relative w-full overflow-hidden">
+  <section id="contact" className="relative w-full overflow-hidden">
       <div className="relative bg-background py-20">
         <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_88%)]">
           <BackgroundBeams />
         </div>
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+  <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             Let&apos;s <span className="text-primary">Connect</span>
           </h2>
           <p className="text-muted-foreground mb-8">
@@ -57,7 +57,7 @@ const Contact = () => {
               </motion.div>
             ))}
           </div>
-          <Card className="px-6 py-6 relative overflow-hidden">
+          <Card className="px-5 py-6 sm:px-6 relative overflow-hidden">
             <Meteors number={20} />
             <ContactForm />
           </Card>
@@ -67,13 +67,15 @@ const Contact = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="flex justify-center items-center mt-20"
+          className="flex justify-center items-center mt-10 md:mt-20"
         >
           <Image
             src={"/contact.svg"}
             alt="Contact Illustrations"
-            width={600}
-            height={600}
+            width={480}
+            height={480}
+            className="w-full max-w-xs sm:max-w-sm md:max-w-md h-auto"
+            priority={false}
           />
         </motion.div>
   </div>

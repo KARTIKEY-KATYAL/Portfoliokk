@@ -13,11 +13,11 @@ const Hero = () => {
   // Removed unused animated word effects to streamline bundle & resolve lint warnings
 
   return (
-        <section
-            id="hero"
-            aria-label="Intro section"
-            className="relative isolate flex min-h-screen w-full flex-col justify-center overflow-hidden pt-24 md:pt-28 pb-24"
-        >
+    <section
+      id="hero"
+      aria-label="Intro section"
+      className="relative isolate flex min-h-screen w-full flex-col justify-center overflow-hidden pt-24 md:pt-28 pb-16 md:pb-24"
+    >
             {/* Layer 1: gradient backdrop for subtle base tone */}
             <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_30%_40%,hsl(var(--primary)/0.15),transparent_60%)]" />
 
@@ -27,25 +27,24 @@ const Hero = () => {
             </div>
 
             {/* Layer 3: Vortex animated particles */}
-            <div className="pointer-events-none absolute inset-0 -z-10">
-                <Vortex
-                    particleCount={420}
-                    rangeY={160}
-                    baseRadius={0.4}
-                    rangeRadius={1.2}
-                    baseSpeed={0.15}
-                    rangeSpeed={1.1}
-                    backgroundColor="transparent"
-                    containerClassName="h-full w-full"
-                />
-                {/* Contrast overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/50 to-background" />
-            </div>
+      <div className="pointer-events-none absolute inset-0 -z-10 hidden sm:block">
+        <Vortex
+          particleCount={360}
+          rangeY={140}
+          baseRadius={0.4}
+          rangeRadius={1.1}
+          baseSpeed={0.15}
+          rangeSpeed={1.0}
+          backgroundColor="transparent"
+          containerClassName="h-full w-full"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/40 to-background" />
+      </div>
 
             {/* Layer 4 removed (Sparkles). Keeping design performant & unified with Boxes background. */}
 
             <div className='container relative z-10 mx-auto px-4'>
-                <div className='grid grid-cols-1 items-center gap-20 md:grid-cols-2'>
+                <div className='grid grid-cols-1 items-center gap-12 md:gap-20 md:grid-cols-2'>
             <motion.div
             initial={{opacity:0 , x:-20}}
             animate={{opacity:1 , x:0}}
@@ -55,10 +54,10 @@ const Hero = () => {
                                 <span className="mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1 text-xs font-medium tracking-wide text-primary/90 shadow-sm backdrop-blur-sm">
                                     <span className="size-2 rounded-full bg-primary animate-pulse" /> Open to opportunities
                                 </span>
-                                <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">
+                                <h1 className="mb-6 text-3xl sm:text-4xl font-bold leading-tight md:text-6xl">
                                     Hi, I&apos;m <span className="text-primary">Kartikey Katyal</span>
                                 </h1>
-                                <p className="mb-8 max-w-xl text-base text-muted-foreground md:text-xl">
+                                <p className="mb-8 max-w-xl text-sm sm:text-base text-muted-foreground md:text-xl">
                                     Full Stack Developer focused on building performant, accessible & delightful web experiences using modern TypeScript / React stacks.
                                 </p>
                                 <div className="mb-10 flex flex-wrap gap-3">
