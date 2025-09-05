@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Menu, X, Command } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,14 +10,44 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeId, setActiveId] = useState<string>("#about");
+  const hasMounted = useRef(false);
 
+  // Track scroll position for header style & floating nav animation
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // initial
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Scrollspy: highlight active section
+  useEffect(() => {
+  const ids = ["#about", "#skills", "#projects", "#contact"] as const;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = `#${entry.target.id}`;
+            if ((ids as readonly string[]).includes(id)) {
+              setActiveId(id);
+            }
+          }
+        });
+      },
+      { rootMargin: "0px 0px -45% 0px", threshold: 0.35 },
+    );
+    ids.forEach((id) => {
+      const el = document.querySelector(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  // Mark mount to avoid hydration flash logic differences
+  useEffect(() => { hasMounted.current = true; }, []);
 
   const menuItems = [
     { label: "About", href: "#about" },
@@ -26,9 +56,7 @@ const Header = () => {
     { label: "Contact", href: "#contact" },
   ];
 
-  // simple floating nav (instead of missing FloatingNav component)
-  // appears after scroll
-  const navItems = menuItems;
+  const navItems = menuItems; // reuse for floating pill
 
   const handleResumeDownload = () => {
     // Programmatic fetch to ensure download instead of opening in-browser
@@ -53,15 +81,40 @@ const Header = () => {
   return (
     <>
     {/* Inline floating nav pill shown when scrolled */}
-    {isScrolled && (
-      <nav className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-[60] gap-1 rounded-full border border-border/40 bg-background/80 backdrop-blur-xl px-3 py-2 shadow-sm" aria-label="Primary">
-        {navItems.map(it => (
-          <a key={it.href} href={it.href} className="text-xs font-medium px-3 py-1 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
+    <motion.nav
+      initial={{ opacity: 0, y: -16, scale: 0.95 }}
+      animate={{
+        opacity: isScrolled ? 1 : 0.95,
+        y: isScrolled ? 0 : -8,
+        scale: isScrolled ? 1 : 0.97,
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      aria-label="Section quick navigation"
+      className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-[60] gap-1 rounded-full border border-border/40 bg-background/70 backdrop-blur-xl px-3 py-2 shadow-sm"
+    >
+      {navItems.map((it) => {
+        const active = activeId === it.href;
+        return (
+          <a
+            key={it.href}
+            href={it.href}
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.querySelector(it.href);
+              el?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            aria-current={active ? "page" : undefined}
+            className={`text-xs font-medium px-3 py-1 rounded-full transition-colors ${
+              active
+                ? "bg-primary text-primary-foreground shadow hover:bg-primary/90"
+                : "text-muted-foreground hover:text-primary hover:bg-primary/10"
+            }`}
+          >
             {it.label}
           </a>
-        ))}
-      </nav>
-    )}
+        );
+      })}
+    </motion.nav>
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? "bg-background/80 backdrop-blur-md border-b" : "bg-background/40 backdrop-blur-sm"
@@ -78,15 +131,27 @@ const Header = () => {
 
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center gap-4">
-            {menuItems.map((item) => (
-              <a
-                href={item.href}
-                key={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
+            {menuItems.map((item) => {
+              const active = activeId === item.href;
+              return (
+                <a
+                  href={item.href}
+                  key={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  aria-current={active ? "page" : undefined}
+                  className={`text-sm font-medium transition-colors ${
+                    active
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
             <Button variant={"default"} size={"sm"} className="gap-2" onClick={handleResumeDownload} aria-label="Download Resume PDF">
               <Download className="w-4 h-4" />
               Resume
@@ -132,16 +197,27 @@ const Header = () => {
             className="md:hidden border-t bg-background"
           >
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {menuItems.map((item) => (
-                <a
-                  href={item.href}
-                  key={item.href}
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-all"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
+              {menuItems.map((item) => {
+                const active = activeId === item.href;
+                return (
+                  <a
+                    href={item.href}
+                    key={item.href}
+                    className={`text-sm font-medium transition-all ${
+                      active
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-primary"
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" });
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
               <Button variant={"default"} size={"sm"} className="gap-2" onClick={() => { handleResumeDownload(); setIsMobileMenuOpen(false); }} aria-label="Download Resume PDF">
                 <Download className="w-4 h-4" />
                 Resume
