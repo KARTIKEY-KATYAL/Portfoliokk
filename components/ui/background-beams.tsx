@@ -89,7 +89,17 @@ export const BackgroundBeams = React.memo(
             ></motion.path>
           ))}
           <defs>
-            {paths.map((path, index) => (
+            {paths.map((path, index) => {
+              const seed = index + 1;
+              const rand = (min: number, max: number) => {
+                const x = Math.sin(seed * 12.9898) * 43758.5453;
+                const n = x - Math.floor(x);
+                return min + (max - min) * n;
+              };
+              const y2End = 93 + rand(0,8);
+              const duration = rand(10,20);
+              const delay = rand(0,10);
+              return (
               <motion.linearGradient
                 id={`linearGradient-${index}`}
                 key={`gradient-${index}`}
@@ -103,13 +113,13 @@ export const BackgroundBeams = React.memo(
                   x1: ["0%", "100%"],
                   x2: ["0%", "95%"],
                   y1: ["0%", "100%"],
-                  y2: ["0%", `${93 + Math.random() * 8}%`],
+                  y2: ["0%", `${y2End}%`],
                 }}
                 transition={{
-                  duration: Math.random() * 10 + 10,
+                  duration,
                   ease: "easeInOut",
                   repeat: Infinity,
-                  delay: Math.random() * 10,
+                  delay,
                 }}
               >
                 <stop stopColor="#18CCFC" stopOpacity="0"></stop>
@@ -117,7 +127,7 @@ export const BackgroundBeams = React.memo(
                 <stop offset="32.5%" stopColor="#6344F5"></stop>
                 <stop offset="100%" stopColor="#AE48FF" stopOpacity="0"></stop>
               </motion.linearGradient>
-            ))}
+              )})}
 
             <radialGradient
               id="paint0_radial_242_278"

@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useMemo } from "react";
 
 export const Meteors = ({
   number,
@@ -9,10 +9,20 @@ export const Meteors = ({
   number?: number;
   className?: string;
 }) => {
-  const meteors = new Array(number || 20).fill(true);
+  const count = number || 20;
+  // Deterministic pseudo-random generator based on index so SSR & CSR match
+  const meteors = useMemo(() => new Array(count).fill(0).map((_, i) => i), [count]);
+  const prng = (seed: number) => {
+    const x = Math.sin(seed * 9999.91) * 10000; // deterministic
+    return x - Math.floor(x);
+  };
   return (
     <>
-      {meteors.map((el, idx) => (
+      {meteors.map((idx) => {
+        const left = Math.floor(prng(idx + 1) * 800 - 400); // -400..400
+        const delay = (0.2 + prng(idx + 101) * 0.6).toFixed(3); // 0.2..0.8s
+        const duration = Math.floor(2 + prng(idx + 202) * 8); // 2..9s
+        return (
         <span
           key={"meteor" + idx}
           className={cn(
@@ -22,12 +32,13 @@ export const Meteors = ({
           )}
           style={{
             top: 0,
-            left: Math.floor(Math.random() * (400 - -400) + -400) + "px",
-            animationDelay: Math.random() * (0.8 - 0.2) + 0.2 + "s",
-            animationDuration: Math.floor(Math.random() * (10 - 2) + 2) + "s",
+            left: left + "px",
+            animationDelay: `${delay}s`,
+            animationDuration: `${duration}s`,
           }}
         ></span>
-      ))}
+        );
+      })}
     </>
   );
 };

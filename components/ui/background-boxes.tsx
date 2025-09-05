@@ -39,7 +39,7 @@ export const BoxesCore = ({
   // Memoize arrays to avoid re-renders cost
   const rows = useMemo(() => new Array(rowCount).fill(0), [rowCount]);
   const cols = useMemo(() => new Array(colCount).fill(0), [colCount]);
-  const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
+  const getRandomColor = (seed: number) => colors[seed % colors.length];
 
   return (
     <div
@@ -61,7 +61,7 @@ export const BoxesCore = ({
           {cols.map((_, j) => (
             <motion.div
               whileHover={{
-                backgroundColor: getRandomColor(),
+                backgroundColor: getRandomColor(i * cols.length + j),
                 transition: { duration: 0 },
               }}
               key={`col-${i}-${j}`}
