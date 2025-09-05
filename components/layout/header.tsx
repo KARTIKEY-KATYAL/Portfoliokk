@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Menu, X, Command } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -49,15 +49,22 @@ const Header = () => {
   // Mark mount to avoid hydration flash logic differences
   useEffect(() => { hasMounted.current = true; }, []);
 
-  const menuItems = [
+  const menuItems: { label: string; href: string }[] = [
     { label: "About", href: "#about" },
     { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
   ];
 
-  const navItems = menuItems; // reuse for floating pill
+  // (floating nav removed earlier) navItems not needed
 
+  const scrollWithOffset = useCallback((hash: string) => {
+    const el = document.querySelector(hash) as HTMLElement | null;
+    if (!el) return;
+    const HEADER_OFFSET = 80; // height of fixed header
+    const y = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }, []);
   const handleResumeDownload = () => {
     // Programmatic fetch to ensure download instead of opening in-browser
     fetch("/resume.pdf")
@@ -79,42 +86,7 @@ const Header = () => {
   };
 
   return (
-    <>
-    {/* Inline floating nav pill shown when scrolled */}
-    <motion.nav
-      initial={{ opacity: 0, y: -16, scale: 0.95 }}
-      animate={{
-        opacity: isScrolled ? 1 : 0.95,
-        y: isScrolled ? 0 : -8,
-        scale: isScrolled ? 1 : 0.97,
-      }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      aria-label="Section quick navigation"
-      className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-[60] gap-1 rounded-full border border-border/40 bg-background/70 backdrop-blur-xl px-3 py-2 shadow-sm"
-    >
-      {navItems.map((it) => {
-        const active = activeId === it.href;
-        return (
-          <a
-            key={it.href}
-            href={it.href}
-            onClick={(e) => {
-              e.preventDefault();
-              const el = document.querySelector(it.href);
-              el?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
-            aria-current={active ? "page" : undefined}
-            className={`text-xs font-medium px-3 py-1 rounded-full transition-colors ${
-              active
-                ? "bg-primary text-primary-foreground shadow hover:bg-primary/90"
-                : "text-muted-foreground hover:text-primary hover:bg-primary/10"
-            }`}
-          >
-            {it.label}
-          </a>
-        );
-      })}
-    </motion.nav>
+    <>    
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? "bg-background/80 backdrop-blur-md border-b" : "bg-background/40 backdrop-blur-sm"
@@ -139,7 +111,7 @@ const Header = () => {
                   key={item.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" });
+                    scrollWithOffset(item.href);
                   }}
                   aria-current={active ? "page" : undefined}
                   className={`text-sm font-medium transition-colors ${
@@ -210,7 +182,7 @@ const Header = () => {
                     }`}
                     onClick={(e) => {
                       e.preventDefault();
-                      document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" });
+                      scrollWithOffset(item.href);
                       setIsMobileMenuOpen(false);
                     }}
                   >
