@@ -7,8 +7,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { Check, ExternalLink, Github } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { BackgroundBeams } from "@/components/ui/background-beams";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { Section, SectionHeader, fadeSlide } from "@/components/layout/section";
 
 const Projects = () => {
   // Removed unused testimonials carousel for lean bundle
@@ -35,36 +34,19 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="relative w-full overflow-hidden py-20">
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_85%)]">
-        <BackgroundBeams />
-      </div>
-      <div className="container mx-auto px-4">
-      <div className="text-center mb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mx-auto max-w-3xl"
-        >
-          <BackgroundGradient className="rounded-3xl p-10 bg-background/70 backdrop-blur-xl border border-border/40">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Featured <span className="text-primary">Projects</span>
-            </h2>
-            <p className="text-muted-foreground mx-auto max-w-2xl leading-relaxed">
-              Explore selected work highlighting scalable architecture, polished UI, and performance-focused engineering.
-            </p>
-          </BackgroundGradient>
-        </motion.div>
-      </div>
-
-  <motion.div
-    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-    variants={containerVariants}
-    initial="hidden"
-    whileInView="show"
-    viewport={{ once: true, amount: 0.2 }}
-  >
+    <Section id="projects">
+      <SectionHeader
+        title="Featured Projects"
+        highlight="Projects"
+        description="Explore selected work highlighting scalable architecture, polished UI, and performance-focused engineering."
+      />
+      <motion.div
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 md:gap-8"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {projects.map((project) => (
           <motion.div
             key={project.title}
@@ -72,7 +54,7 @@ const Projects = () => {
             whileHover={{ y: shouldReduce ? 0 : -6 }}
             whileTap={{ scale: shouldReduce ? 1 : 0.98 }}
           >
-            <BackgroundGradient className="rounded-2xl p-[2px] will-change-transform">
+            <div className="rounded-2xl p-[2px] will-change-transform bg-gradient-to-br from-primary/20 via-primary/5 to-transparent">
             <Card className="group overflow-hidden rounded-2xl border-border/10 bg-card/80 backdrop-blur-xl hover:shadow-[0_0_0_1px_hsl(var(--primary))] transition-all duration-300 relative">
               <div className="relative overflow-hidden aspect-video">
                 <Image
@@ -141,12 +123,11 @@ const Projects = () => {
                 </div>
               </div>
     </Card>
-            </BackgroundGradient>
+            </div>
           </motion.div>
         ))}
-  </motion.div>
-      </div>
-    </section>
+      </motion.div>
+    </Section>
   );
 };
 
