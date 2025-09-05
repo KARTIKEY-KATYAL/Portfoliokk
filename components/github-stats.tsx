@@ -27,27 +27,27 @@ const GithubStats = ({ username }: Props) => {
   const [timeframe, setTimeframe] = useState<30 | 60 | 90>(30);
 
   useEffect(()=>{
+    const ctrl = new AbortController();
     const fetchGithubStats = async ()=>{
       try {
-        const response = await fetch(`/api/github?username=${username}`);
-
+        const response = await fetch(`/api/github?username=${username}`, { signal: ctrl.signal, cache: 'force-cache' });
         if(!response.ok){
-          throw new Error(`Error fetching data: ${response.statusText}`)
+          throw new Error(`Error fetching data: ${response.status}`);
         }
-
         const data = await response.json();
-        setStats(data)
-        console.log(data)
+        if(!ctrl.signal.aborted){
+          setStats(data);
+        }
       } catch (error) {
-        setError("failed to fetch github stats")
-        console.error(error)
+        if (error instanceof Error && error.name === 'AbortError') return;
+        setError("Failed to fetch GitHub stats");
+      } finally {
+        if(!ctrl.signal.aborted) setLoading(false);
       }
-      finally{
-        setLoading(false)
-      }
-    }
+    };
     fetchGithubStats();
-  } , [username])
+    return () => ctrl.abort();
+  } , [username]);
 
   // Memoized calculations (null-safe) executed every render to preserve hook order
   const { currentStreak, longestStreak, maxContributions, avgLast30, bestDayDate, days } = useMemo(()=>{

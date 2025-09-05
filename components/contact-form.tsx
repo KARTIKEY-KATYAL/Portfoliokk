@@ -19,17 +19,14 @@ import { toast } from "sonner";
 const formSchema = z.object({
   name: z.string().min(2, "Name must be atleast 2 characters"),
   email: z.string().email("Invalid Email address"),
-  message: z.string().min(10, "message must be atleast 10 characters"),
+  message: z.string().min(10, "Message must be atleast 10 characters"),
+  company: z.string().max(0, "" ).optional(), // honeypot field
 });
 
 const ContactForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
+  defaultValues: { name: "", email: "", message: "", company: "" },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -42,14 +39,23 @@ const ContactForm = () => {
       if (!res.ok) throw new Error("Failed to send message");
       toast("Message sent successfully.");
       form.reset();
-    } catch (err) {
+    } catch {
       toast("Failed to send message. Please try again later.");
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
+        {/* Honeypot field */}
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          className="hidden"
+          aria-hidden="true"
+          {...form.register("company")}
+        />
         <FormField
           control={form.control}
           name="name"

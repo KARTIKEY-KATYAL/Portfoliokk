@@ -1,10 +1,8 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, Heart } from "lucide-react";
-import { motion } from "framer-motion";
-import { Boxes } from "@/components/ui/background-boxes"; // previously used
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { siteConfig } from "@/lib/site-config";
 
 export function Footer() {
   return (
@@ -15,24 +13,26 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <h3 className="text-xl font-bold text-primary mb-4">Kartikey Katyal</h3>
+            <h3 className="text-xl font-bold text-primary mb-4">{siteConfig.name}</h3>
             <p className="text-muted-foreground mb-4">
               Full Stack Developer crafting modern web experiences with a focus on user
               experience and performance.
             </p>
             <div className="flex gap-4">
               <Button variant="outline" size="icon" asChild>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
                   <Github className="w-4 h-4" />
                 </a>
               </Button>
+              {siteConfig.linkedin && (
+                <Button variant="outline" size="icon" asChild>
+                  <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </Button>
+              )}
               <Button variant="outline" size="icon" asChild>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="w-4 h-4" />
-                </a>
-              </Button>
-              <Button variant="outline" size="icon" asChild>
-                <a href="mailto:john@example.com">
+                <a href={`mailto:${siteConfig.email}`} aria-label="Email">
                   <Mail className="w-4 h-4" />
                 </a>
               </Button>
@@ -68,17 +68,10 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2">
-              <li className="text-muted-foreground">
-                San Francisco, CA
-              </li>
+              <li className="text-muted-foreground">India (Remote / Open to Relocation)</li>
               <li>
-                <a href="mailto:john@example.com" className="text-muted-foreground hover:text-primary transition-colors">
-                  john@example.com
-                </a>
-              </li>
-              <li>
-                <a href="tel:+1234567890" className="text-muted-foreground hover:text-primary transition-colors">
-                  +1 (234) 567-890
+                <a href={`mailto:${siteConfig.email}`} className="text-muted-foreground hover:text-primary transition-colors">
+                  {siteConfig.email}
                 </a>
               </li>
             </ul>
@@ -87,7 +80,7 @@ export function Footer() {
 
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} John Doe. All rights reserved.
+            © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground flex items-center gap-1">
             Made with <Heart className="w-4 h-4 text-red-500" /> using Next.js

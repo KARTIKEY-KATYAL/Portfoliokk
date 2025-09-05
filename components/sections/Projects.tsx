@@ -5,9 +5,8 @@ import { projects } from "@/constants";
 import { Card } from "../ui/card";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { ArrowRight, Check, ExternalLink, Github } from "lucide-react";
+import { Check, ExternalLink, Github } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { Boxes } from "@/components/ui/background-boxes"; // retained
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 

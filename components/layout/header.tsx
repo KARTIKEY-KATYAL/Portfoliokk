@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Menu, X } from "lucide-react";
+import { Download, Menu, X, Command } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -21,7 +22,7 @@ const Header = () => {
   const menuItems = [
     { label: "About", href: "#about" },
     { label: "Skills", href: "#skills" },
-    { label: "Project", href: "#projects" },
+    { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
   ];
 
@@ -61,7 +62,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-4">
             {menuItems.map((item) => (
               <a
                 href={item.href}
@@ -74,6 +75,19 @@ const Header = () => {
             <Button variant={"default"} size={"sm"} className="gap-2" onClick={handleResumeDownload} aria-label="Download Resume PDF">
               <Download className="w-4 h-4" />
               Resume
+            </Button>
+            <ThemeToggle />
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Open command palette"
+              className="relative"
+              onClick={() => {
+                const e = new KeyboardEvent("keydown", { key: "k", ctrlKey: true });
+                window.dispatchEvent(e);
+              }}
+            >
+              <Command className="w-4 h-4" />
             </Button>
           </nav>
 
@@ -117,6 +131,21 @@ const Header = () => {
                 <Download className="w-4 h-4" />
                 Resume
               </Button>
+              <div className="flex gap-2 pt-2">
+                <ThemeToggle />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Open command palette"
+                  onClick={() => {
+                    const e = new KeyboardEvent("keydown", { key: "k", ctrlKey: true });
+                    window.dispatchEvent(e);
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  <Command className="w-4 h-4" />
+                </Button>
+              </div>
             </nav>
           </motion.div>
         )}

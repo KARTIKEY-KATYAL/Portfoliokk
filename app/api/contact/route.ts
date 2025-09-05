@@ -3,8 +3,32 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Simple in-memory rate limit (per IP). For multi-instance deploy, replace with Redis/KV store.
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 min
+const RATE_LIMIT_MAX = 5; // 5 requests / window
+const requests: Record<string, { count: number; expires: number }> = {};
+
 export async function POST(req: NextRequest) {
-  const { name, email, message } = await req.json();
+  const { name, email, message, company } = await req.json();
+
+  // Honeypot triggered
+  if (company) {
+    return NextResponse.json({ success: true }, { status: 200 });
+  }
+
+  // Basic rate limiting by IP
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const now = Date.now();
+  const bucket = requests[ip] || { count: 0, expires: now + RATE_LIMIT_WINDOW_MS };
+  if (now > bucket.expires) {
+    bucket.count = 0;
+    bucket.expires = now + RATE_LIMIT_WINDOW_MS;
+  }
+  bucket.count++;
+  requests[ip] = bucket;
+  if (bucket.count > RATE_LIMIT_MAX) {
+    return NextResponse.json({ error: "Rate limit exceeded. Please wait a moment and try again." }, { status: 429 });
+  }
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -12,7 +36,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>",
+  from: "Portfolio Contact <onboarding@resend.dev>", // Configure a verified domain in production
       to: ["kartikeykatyal2003@gmail.com"],
       subject: `New Contact Form Submission from ${name}`,
       replyTo: email,

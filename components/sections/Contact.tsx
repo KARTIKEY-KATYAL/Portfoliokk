@@ -5,7 +5,6 @@ import { Github, Linkedin, Mail } from "lucide-react";
 import { Card } from "../ui/card";
 import ContactForm from "../contact-form";
 import Image from "next/image";
-import { Boxes } from "@/components/ui/background-boxes"; // retained
 import { BackgroundBeams } from "@/components/ui/background-beams";
 const Contact = () => {
   return (
@@ -20,10 +19,10 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl font-bold mb-6">
-            Let's <span className="text-primary">Connect</span>
+            Let&apos;s <span className="text-primary">Connect</span>
           </h2>
           <p className="text-muted-foreground mb-8">
-            I'm always open to discussing new projects, creative ideas, or
+            I&apos;m always open to discussing new projects, creative ideas, or
             opportunities to be part of your visions.
           </p>
           <div className="flex gap-4 mb-8">

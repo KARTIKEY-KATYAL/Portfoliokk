@@ -14,33 +14,33 @@ export const technologies = [
 
 export const testimonials = [
   {
-    name: "Sarah Johnson",
-    role: "CEO at TechStart",
+    name: "Product Manager (SaaS)",
+    role: "B2B Platform",
     image: "https://avatar.iran.liara.run/public/1",
-    content: "John's ability to transform our vision into reality was exceptional. His technical expertise and attention to detail made our project a huge success.",
+    content: "Kartikey consistently delivered production‑ready features ahead of schedule while elevating code quality and performance across the stack.",
   },
   {
-    name: "Michael Chen",
-    role: "CTO at InnovateLabs",
+    name: "Founder",
+    role: "Early Stage Startup",
     image: "https://avatar.iran.liara.run/public/2",
-    content: "Working with John was a game-changer for our startup. His full-stack expertise and problem-solving skills are truly remarkable.",
+    content: "Excellent communication, clean architectural decisions and a keen eye for UI polish. A true full‑stack problem solver.",
   },
   {
-    name: "Emily Rodriguez",
-    role: "Product Manager at DevCorp",
+    name: "Engineering Lead",
+    role: "Enterprise Integration",
     image: "https://avatar.iran.liara.run/public/3",
-    content: "John not only delivered outstanding code but also brought innovative solutions to our challenges. His collaborative approach made him a valuable team member.",
+    content: "Proactive in identifying bottlenecks and reducing load times. Strong ownership mentality and collaboration skills.",
   },
 ];
 
  export const projects = [
   {
-    title: "E-Commerce Platform",
-    description: "A full-featured e-commerce platform with real-time inventory management, secure payments, and an intuitive admin dashboard.",
+   title: "E-Commerce Platform",
+   description: "Full‑featured commerce platform with real‑time inventory, secure payments & admin analytics dashboard.",
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
     technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Stripe", "PostgreSQL"],
-    liveUrl: "https://ecommerce-demo.com",
-    githubUrl: "https://github.com/johndoe/ecommerce",
+   liveUrl: "https://example.com/ecommerce", // Update real link
+   githubUrl: "https://github.com/KARTIKEY-KATYAL", // Update repo link
     features: [
       "Real-time inventory tracking",
       "Secure payment processing",
@@ -50,11 +50,11 @@ export const testimonials = [
   },
   {
     title: "AI-Powered Task Manager",
-    description: "Smart task management application that uses AI to prioritize and categorize tasks, with team collaboration features.",
+   description: "Intelligent task manager leveraging AI for prioritization, categorization & collaborative workflows.",
     image: "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?w=800&h=600&fit=crop",
     technologies: ["React", "Node.js", "OpenAI", "MongoDB", "WebSocket"],
-    liveUrl: "https://taskmanager-demo.com",
-    githubUrl: "https://github.com/johndoe/taskmanager",
+   liveUrl: "https://example.com/taskmanager",
+   githubUrl: "https://github.com/KARTIKEY-KATYAL", // Update repo link
     features: [
       "AI task prioritization",
       "Real-time collaboration",
@@ -64,11 +64,11 @@ export const testimonials = [
   },
   {
     title: "Social Media Analytics",
-    description: "Comprehensive social media analytics platform providing insights and engagement metrics across multiple platforms.",
+   description: "Analytics platform delivering multi‑channel engagement insights & custom report generation.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
     technologies: ["Vue.js", "Python", "D3.js", "AWS", "Redis"],
-    liveUrl: "https://analytics-demo.com",
-    githubUrl: "https://github.com/johndoe/analytics",
+   liveUrl: "https://example.com/analytics",
+   githubUrl: "https://github.com/KARTIKEY-KATYAL", // Update repo link
     features: [
       "Cross-platform analytics",
       "Custom report generation",
