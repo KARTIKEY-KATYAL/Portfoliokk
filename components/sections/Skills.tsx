@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { technologies } from '@/constants'
 import { Card } from '../ui/card'
 import Image from 'next/image'
@@ -10,6 +10,21 @@ import { BackgroundGradient } from '@/components/ui/background-gradient';
 const Skills = () => {
   // Removed unused people demo array; technologies constant drives UI
   
+  const shouldReduce = useReducedMotion();
+  // Ref specifically targets the list element for scroll-based transforms
+  const ref = React.useRef<HTMLUListElement | null>(null);
+  // Helper to safely use offset without polluting file with `any`.
+  // TS types for useScroll may not yet include `offset`; suppress locally.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const parallax = useTransform(scrollYProgress, [0, 1], [shouldReduce ? 0 : -40, shouldReduce ? 0 : 40]);
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.1 } }
+  };
+
   return (
     <section id='skills' className='relative w-full overflow-hidden py-20'>
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_85%)]">
@@ -23,14 +38,13 @@ const Skills = () => {
         </BackgroundGradient>
       </div>
       <motion.ul
+        ref={ref}
+        style={{ y: parallax }}
         className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8'
         initial='hidden'
         whileInView='visible'
         viewport={{ once: true, amount: 0.25 }}
-        variants={{
-          hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
-        }}
+        variants={listVariants}
         aria-label='Technology stack'
         role='list'
       >
@@ -44,7 +58,7 @@ const Skills = () => {
             role='listitem'
           >
             <Card
-              className='group relative p-4 flex flex-col items-center justify-center border-border/10 bg-card/70 backdrop-blur-xl transition-all hover:shadow-[0_0_0_1px_hsl(var(--primary))] hover:bg-card/90 focus-within:shadow-[0_0_0_1px_hsl(var(--primary))] rounded-xl'
+              className='group relative p-4 flex flex-col items-center justify-center border-border/10 bg-card/70 backdrop-blur-xl transition-all hover:shadow-[0_0_0_1px_hsl(var(--primary))] hover:bg-card/90 focus-within:shadow-[0_0_0_1px_hsl(var(--primary))] rounded-xl will-change-transform'
               tabIndex={0}
               aria-label={tech.name}
             >
@@ -55,7 +69,7 @@ const Skills = () => {
                 width={56}
                 height={56}
                 loading='lazy'
-                className='mb-2 drop-shadow-sm group-hover:drop-shadow filter-saturate-150 transition-transform duration-300 group-hover:scale-110'
+                className='mb-2 drop-shadow-sm group-hover:drop-shadow filter-saturate-150 transition-transform duration-500 group-hover:scale-110'
               />
               <span className='text-xs md:text-sm font-medium text-center'>{tech.name}</span>
             </Card>

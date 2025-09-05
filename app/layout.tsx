@@ -65,7 +65,7 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/hero.svg" />
         <meta name="theme-color" content="#000000" />
       </head>
-      <body className={`${inter.className} min-h-screen antialiased bg-gradient-to-br from-white via-white to-slate-100 dark:from-neutral-950 dark:via-neutral-950 dark:to-neutral-900 text-foreground transition-colors`}> 
+  <body className={`${inter.className} min-h-screen antialiased bg-[radial-gradient(circle_at_20%_20%,hsl(var(--secondary))_0%,transparent_60%),radial-gradient(circle_at_80%_70%,hsl(var(--muted))_0%,transparent_65%)] dark:bg-gradient-to-br dark:from-neutral-950 dark:via-neutral-950 dark:to-neutral-900 text-foreground transition-colors`}> 
         <ThemeProvider>
           <Header />
           <CommandPalette />

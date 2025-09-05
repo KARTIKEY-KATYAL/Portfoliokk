@@ -12,27 +12,6 @@ export const technologies = [
 ]
 
 
-export const testimonials = [
-  {
-    name: "Product Manager (SaaS)",
-    role: "B2B Platform",
-    image: "https://avatar.iran.liara.run/public/1",
-    content: "Kartikey consistently delivered production‑ready features ahead of schedule while elevating code quality and performance across the stack.",
-  },
-  {
-    name: "Founder",
-    role: "Early Stage Startup",
-    image: "https://avatar.iran.liara.run/public/2",
-    content: "Excellent communication, clean architectural decisions and a keen eye for UI polish. A true full‑stack problem solver.",
-  },
-  {
-    name: "Engineering Lead",
-    role: "Enterprise Integration",
-    image: "https://avatar.iran.liara.run/public/3",
-    content: "Proactive in identifying bottlenecks and reducing load times. Strong ownership mentality and collaboration skills.",
-  },
-];
-
  export const projects = [
   {
    title: "E-Commerce Platform",

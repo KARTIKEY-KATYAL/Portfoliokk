@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { projects } from "@/constants";
 import { Card } from "../ui/card";
 import Image from "next/image";
@@ -12,6 +12,27 @@ import { BackgroundGradient } from "@/components/ui/background-gradient";
 
 const Projects = () => {
   // Removed unused testimonials carousel for lean bundle
+
+  const shouldReduce = useReducedMotion();
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.15,
+      },
+    },
+  };
+  const cardVariants = {
+    hidden: { opacity: 0, y: shouldReduce ? 0 : 24, scale: shouldReduce ? 1 : 0.96 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 260, damping: 24 },
+    },
+  };
 
   return (
     <section id="projects" className="relative w-full overflow-hidden py-20">
@@ -37,25 +58,31 @@ const Projects = () => {
         </motion.div>
       </div>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project, index) => (
+  <motion.div
+    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    variants={containerVariants}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true, amount: 0.2 }}
+  >
+        {projects.map((project) => (
           <motion.div
             key={project.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            variants={cardVariants}
+            whileHover={{ y: shouldReduce ? 0 : -6 }}
+            whileTap={{ scale: shouldReduce ? 1 : 0.98 }}
           >
-            <BackgroundGradient className="rounded-2xl p-[2px]">
-            <Card className="group overflow-hidden rounded-2xl border-border/10 bg-card/80 backdrop-blur-xl hover:shadow-[0_0_0_1px_hsl(var(--primary))] transition-all duration-300">
+            <BackgroundGradient className="rounded-2xl p-[2px] will-change-transform">
+            <Card className="group overflow-hidden rounded-2xl border-border/10 bg-card/80 backdrop-blur-xl hover:shadow-[0_0_0_1px_hsl(var(--primary))] transition-all duration-300 relative">
               <div className="relative overflow-hidden aspect-video">
                 <Image
                   src={project.image}
                   alt={project.title}
                   width={800}
                   height={600}
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4 backdrop-blur-[2px]">
                   <Button asChild variant={"secondary"} size={"sm"}>
                     <a
                       href={project.liveUrl}
@@ -83,7 +110,8 @@ const Projects = () => {
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors relative">
+                  <span className="absolute -inset-x-2 -top-2 h-[120%] origin-left scale-x-0 bg-gradient-to-r from-primary/10 to-transparent blur-sm transition-transform duration-500 group-hover:scale-x-100" />
                   {project.title}
                 </h3>
                 <p className="text-muted-foreground mb-4">
@@ -112,11 +140,11 @@ const Projects = () => {
                     </ul>
                 </div>
               </div>
-            </Card>
+    </Card>
             </BackgroundGradient>
           </motion.div>
         ))}
-      </div>
+  </motion.div>
       </div>
     </section>
   );

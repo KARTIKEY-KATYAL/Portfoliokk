@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
 import { BackgroundBeams } from "@/components/ui/background-beams";
@@ -8,6 +8,11 @@ import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { Code2, Cpu, Rocket, Sparkles, TrendingUp } from "lucide-react";
 
 export default function About() {
+  const shouldReduce = useReducedMotion();
+  const cardVariants = {
+    hidden: { opacity: 0, y: shouldReduce ? 0 : 28, scale: shouldReduce ? 1 : 0.95 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', damping: 24, stiffness: 260 } }
+  };
   return (
     <section id="about" className="relative w-full overflow-hidden py-24">
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_85%)]">
@@ -32,6 +37,7 @@ export default function About() {
         </motion.div>
 
         <BentoGrid className="mb-12">
+          <motion.div variants={cardVariants} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
           <BentoCard
             colSpan={2}
             title="Product-Focused Engineering"
@@ -44,6 +50,8 @@ export default function About() {
               <li>Perf budgets & accessibility baked-in</li>
             </ul>
           </BentoCard>
+          </motion.div>
+          <motion.div variants={cardVariants} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
           <BentoCard
             title="Systems Thinking"
             description="API boundaries, cache layers & deployment pipelines—optimizations compound."
@@ -55,6 +63,8 @@ export default function About() {
               ))}
             </div>
           </BentoCard>
+          </motion.div>
+          <motion.div className="col-span-3" variants={cardVariants} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
           <BentoCard
             colSpan={3}
             title="Craft & Interaction"
@@ -65,6 +75,7 @@ export default function About() {
               Motion guidelines: purposeful, performant, and respecting reduced-motion preferences.
             </p>
           </BentoCard>
+          </motion.div>
         </BentoGrid>
 
         <div className="grid gap-6 md:grid-cols-3">

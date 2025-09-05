@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { Card } from "@/components/ui/card";
@@ -43,6 +43,15 @@ const data: ExperienceItem[] = [
 ];
 
 export default function Experience() {
+  const shouldReduce = useReducedMotion();
+  const itemVariants = {
+    hidden: { opacity: 0, y: shouldReduce ? 0 : 40 },
+    show: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.08, type: 'spring', stiffness: 260, damping: 30 }
+    })
+  };
   return (
     <section id="experience" className="relative w-full overflow-hidden py-20">
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_85%)]">
@@ -71,11 +80,13 @@ export default function Experience() {
                 <li key={item.company} className="relative md:grid md:grid-cols-2 md:gap-10">
                   <div className={`md:col-span-1 ${isRight ? "md:order-1" : "md:order-2"}`}></div>
                   <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.05 }}
+                    custom={i}
+                    variants={itemVariants}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.3 }}
                     className={`relative md:col-span-1 ${isRight ? "md:order-2" : "md:order-1"}`}
+                    whileHover={{ y: shouldReduce ? 0 : -4 }}
                   >
                     <div className={`hidden md:block absolute top-6 w-4 h-4 rounded-full bg-primary/70 ring-4 ring-background/80 backdrop-blur ${isRight ? "-left-[34px]" : "-right-[34px]"}`} />
                     <BackgroundGradient className="rounded-2xl p-[2px]">

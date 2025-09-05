@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { QrContact } from "@/components/ui/qr-contact";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -138,6 +139,7 @@ const Header = () => {
               <Download className="w-4 h-4" />
               Resume
             </Button>
+            <QrContact />
             <ThemeToggle />
             <Button
               variant="outline"
@@ -205,6 +207,7 @@ const Header = () => {
                 Resume
               </Button>
               <div className="flex gap-2 pt-2">
+                <QrContact />
                 <ThemeToggle />
                 <Button
                   variant="outline"
