@@ -9,8 +9,30 @@ import { Check, ExternalLink, Github } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 const Projects = () => {
+  const testimonials = [
+    {
+      quote:
+        "Working with Kartikey was exceptional. His technical expertise and attention to detail made our project a huge success.",
+      name: "Sarah Johnson",
+      title: "CEO at TechStart",
+    },
+    {
+      quote:
+        "Kartikey's ability to transform our vision into reality was remarkable. His full-stack expertise is truly outstanding.",
+      name: "Michael Chen",
+      title: "CTO at InnovateLabs",
+    },
+    {
+      quote:
+        "Not only did Kartikey deliver outstanding code but also brought innovative solutions to our challenges.",
+      name: "Emily Rodriguez",
+      title: "Product Manager at DevCorp",
+    },
+  ];
+
   return (
     <section id="projects" className="relative w-full overflow-hidden py-20">
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_85%)]">
@@ -115,6 +137,19 @@ const Projects = () => {
           </motion.div>
         ))}
       </div>
+      </div>
+      
+      <div className="py-20">
+        <h3 className="text-2xl md:text-3xl font-bold text-center mb-12">
+          What <span className="text-primary">Clients Say</span>
+        </h3>
+        <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+          <InfiniteMovingCards
+            items={testimonials}
+            direction="right"
+            speed="slow"
+          />
+        </div>
       </div>
     </section>
   );

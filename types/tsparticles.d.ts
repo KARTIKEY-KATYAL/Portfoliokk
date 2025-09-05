@@ -1,8 +1,9 @@
 declare module "@tsparticles/engine" {
-  export type Container = any;
+  // Using unknown instead of any to satisfy lint while keeping broad compatibility
+  export type Container = unknown;
   export type SingleOrMultiple<T> = T | T[];
 }
 
 declare module "@tsparticles/slim" {
-  export function loadSlim(engine: any): Promise<void>;
+  export function loadSlim(engine: unknown): Promise<void>;
 }

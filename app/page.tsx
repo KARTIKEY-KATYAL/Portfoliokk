@@ -9,7 +9,7 @@ import Experience from "@/components/sections/Experience";
 import Testimonials from "@/components/sections/Testimonials";
 import FAQ from "@/components/sections/FAQ";
 
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 
 export default function Home() {
@@ -18,9 +18,9 @@ export default function Home() {
   <Hero/>
   <About/>
   <Skills/>
-  {/* <Experience/> */}
-  {/* <Projects/> */}
-  {/* <Testimonials/> */}
+  <Experience/>
+  <Projects/>
+  <Testimonials/>
   {/* Github Stats Section */}
 
   <section className="container mx-auto px-4 py-20">
@@ -37,7 +37,7 @@ export default function Home() {
       </motion.div>
   </section>
 
-  {/* <FAQ/> */}
+  <FAQ/>
   <Contact/>
  </main>
   );

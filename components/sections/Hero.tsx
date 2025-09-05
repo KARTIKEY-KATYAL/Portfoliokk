@@ -10,6 +10,8 @@ import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const Hero = () => {
+  // Removed unused animated word effects to streamline bundle & resolve lint warnings
+
   return (
         <section
             id="hero"

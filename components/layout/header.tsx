@@ -26,6 +26,10 @@ const Header = () => {
     { label: "Contact", href: "#contact" },
   ];
 
+  // simple floating nav (instead of missing FloatingNav component)
+  // appears after scroll
+  const navItems = menuItems;
+
   const handleResumeDownload = () => {
     // Programmatic fetch to ensure download instead of opening in-browser
     fetch("/resume.pdf")
@@ -47,6 +51,17 @@ const Header = () => {
   };
 
   return (
+    <>
+    {/* Inline floating nav pill shown when scrolled */}
+    {isScrolled && (
+      <nav className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-[60] gap-1 rounded-full border border-border/40 bg-background/80 backdrop-blur-xl px-3 py-2 shadow-sm" aria-label="Primary">
+        {navItems.map(it => (
+          <a key={it.href} href={it.href} className="text-xs font-medium px-3 py-1 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
+            {it.label}
+          </a>
+        ))}
+      </nav>
+    )}
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? "bg-background/80 backdrop-blur-md border-b" : "bg-background/40 backdrop-blur-sm"
@@ -151,6 +166,7 @@ const Header = () => {
         )}
       </AnimatePresence>
     </header>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { technologies } from '@/constants'
 import { Card } from '../ui/card'
 import Image from 'next/image'
@@ -8,6 +8,7 @@ import { BackgroundBeams } from '@/components/ui/background-beams';
 import { BackgroundGradient } from '@/components/ui/background-gradient';
 
 const Skills = () => {
+  // Removed unused people demo array; technologies constant drives UI
   
   return (
     <section id='skills' className='relative w-full overflow-hidden py-20'>
