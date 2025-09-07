@@ -20,6 +20,12 @@ interface GithubStats {
   }[];
 }
 
+// Helper narrower types for optional idle callback without ambient declaration conflicts
+type MaybeIdleWindow = typeof window & {
+  requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+  cancelIdleCallback?: (handle: number) => void;
+};
+
 const GithubStats = ({ username }: Props) => {
   const [stats, setStats] = useState<GithubStats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,7 +49,8 @@ const GithubStats = ({ username }: Props) => {
       }
     };
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      idleId = (window as any).requestIdleCallback(run, { timeout: 1500 });
+      const win = window as MaybeIdleWindow;
+      idleId = win.requestIdleCallback?.(run, { timeout: 1500 });
     } else {
       const t = setTimeout(run, 300); // slight delay to prioritize main content
       idleId = t as unknown as number;
@@ -52,13 +59,14 @@ const GithubStats = ({ username }: Props) => {
       ctrl.abort();
       if (idleId) {
         if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
-          (window as any).cancelIdleCallback(idleId);
+          (window as MaybeIdleWindow).cancelIdleCallback?.(idleId);
         } else {
           clearTimeout(idleId);
         }
       }
     };
   }, [username]);
+
 
   // Memoized calculations (null-safe) executed every render to preserve hook order
   const { currentStreak, longestStreak, maxContributions, avgLast30, bestDayDate, days } = useMemo(()=>{

@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { fadeStagger, fadeUp } from "@/lib/motion";
+import { fadeStagger } from "@/lib/motion";
 import { projects } from "@/constants";
 import { Card } from "../ui/card";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Check, ExternalLink, Github } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { Section, SectionHeader, fadeSlide } from "@/components/layout/section";
+import { Section, SectionHeader } from "@/components/layout/section";
 
 const Projects = () => {
   // Removed unused testimonials carousel for lean bundle
