@@ -60,7 +60,7 @@
     @apply border-border;
   }
   body {
-  @apply bg-background text-foreground transition-colors duration-500;
+    @apply bg-background text-foreground transition-colors duration-500;
   }
 }
 
@@ -81,8 +81,12 @@
 
 /* Smooth theme change utility (optional class added on toggle) */
 @keyframes theme-fade {
-  from { opacity: 0.6; }
-  to { opacity: 1; }
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .theme-fade {
   animation: theme-fade 0.4s ease;
@@ -113,8 +117,85 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.05) 55%, transparent 70%);
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 45%,
+    rgba(255, 255, 255, 0.05) 55%,
+    transparent 70%
+  );
   transform: translateX(-100%);
   animation: shimmer 2s infinite;
 }
-@keyframes shimmer { to { transform: translateX(100%); } }
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Page transition fade (for route changes when using suspense boundaries) */
+.page-fade-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.page-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.55s cubic-bezier(0.16, 0.8, 0.24, 1);
+}
+.page-fade-exit {
+  opacity: 1;
+}
+.page-fade-exit-active {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: all 0.35s ease;
+}
+
+/* Accent ring utility for focusable interactive elements */
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+}
+
+/* Soft glow utility */
+.glow-edge {
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.25),
+    0 2px 8px -2px hsl(var(--primary) / 0.3),
+    0 4px 28px -6px hsl(var(--primary) / 0.35);
+}
+
+/* Layered gradient helper backgrounds */
+.gradient-subtle {
+  background: linear-gradient(
+      140deg,
+      hsl(var(--primary) / 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 70% 30%,
+      hsl(var(--primary) / 0.12),
+      transparent 55%
+    );
+}
+
+/* Button sheen via pseudo element */
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 35%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: translateX(-60%) skewX(-18deg);
+  animation: button-sheen 4s linear infinite;
+  pointer-events: none;
+  mask-image: linear-gradient(-60deg, transparent, black, transparent);
+  transition: opacity 0.5s ease;
+}
+.btn-sheen:hover::after {
+  opacity: 0.7;
+}

@@ -34,10 +34,10 @@ const Contact = () => {
               href: "https://github.com/KARTIKEY-KATYAL",
               icon: <Github className="w-5 h-5" />, label: 'GitHub'
             }, {
-              href: "#",
+              href: "https://www.linkedin.com/in/kartikey-katyal-164870239/",
               icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn'
             }, {
-              href: "mailto:josh@example.com",
+              href: "mailto:kartikeykatyal2003@gmail.com",
               icon: <Mail className="w-5 h-5" />, label: 'Email'
             }].map((item, i) => (
               <motion.div key={item.label} custom={i} variants={iconVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>

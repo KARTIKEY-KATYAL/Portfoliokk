@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
-import { motion } from "framer-motion";
+import { fadeInSoft } from "@/lib/motion";
+import { Reveal } from "@/components/ui/reveal";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { cn } from "@/lib/utils";
@@ -71,30 +72,29 @@ export function SectionHeader({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: motionOnce, amount: 0.2 }}
-      transition={{ duration: 0.55 }}
+    <Reveal
       className={cn(
-        "mx-auto mb-16 max-w-3xl", // spacing & width
+        "mx-auto mb-16 max-w-3xl",
         align === "center" && "text-center",
         align === "start" && "text-left",
         className
       )}
+      variants={fadeInSoft}
+      once={motionOnce}
     >
-      <BackgroundGradient className="rounded-3xl border border-border/40 bg-background/70 p-8 md:p-10 backdrop-blur-xl">
-        <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">
+      <BackgroundGradient className="group rounded-3xl border border-border/40 bg-background/70 p-8 md:p-10 backdrop-blur-xl relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 [mask-image:radial-gradient(circle_at_center,white,transparent_75%)] bg-[radial-gradient(circle_at_30%_40%,hsl(var(--primary)/0.18),transparent_60%),radial-gradient(circle_at_70%_65%,hsl(var(--primary)/0.12),transparent_55%)]" />
+        <h2 className="relative mb-4 text-3xl font-bold sm:text-4xl md:text-5xl tracking-tight">
           {renderedTitle}
         </h2>
         {description && (
           <p className={cn(
-            "text-muted-foreground leading-relaxed",
+            "relative text-muted-foreground leading-relaxed",
             align === "center" && "mx-auto max-w-2xl"
           )}>{description}</p>
         )}
       </BackgroundGradient>
-    </motion.div>
+    </Reveal>
   );
 }
 

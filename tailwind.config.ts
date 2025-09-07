@@ -82,13 +82,19 @@ export default {
   				to: {
   					height: '0'
   				}
-  			}
+			},
+			'button-sheen': {
+				'0%': { transform: 'translateX(-60%) skewX(-18deg)' },
+				'50%': { transform: 'translateX(130%) skewX(-18deg)' },
+				'100%': { transform: 'translateX(130%) skewX(-18deg)' }
+			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
   			"meteor-effect": "meteor 5s linear infinite",
+			'button-sheen': 'button-sheen 3.6s linear infinite'
   		}
   	}
   },
