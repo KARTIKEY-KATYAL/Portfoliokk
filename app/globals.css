@@ -107,3 +107,14 @@
     opacity: 0;
   }
 }
+
+/* Subtle shimmer (used for skeletons) */
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.05) 55%, transparent 70%);
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer { to { transform: translateX(100%); } }

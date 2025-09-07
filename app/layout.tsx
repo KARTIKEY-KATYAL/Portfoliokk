@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import CommandPalette from "@/components/ui/command-palette";
 import { siteConfig } from "@/lib/site-config";
 import { JsonLd } from "@/components/seo/json-ld";
+import { MotionProvider } from "@/components/motion-provider";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
@@ -62,17 +63,28 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="preload" as="image" href="/hero.svg" />
         <meta name="theme-color" content="#000000" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
+  <meta name="bingbot" content="index, follow" />
+  <meta name="yandex" content="index, follow" />
+  <meta name="author" content={siteConfig.author} />
+  <meta name="application-name" content={siteConfig.name} />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="keywords" content={[...siteConfig.keywords, ...siteConfig.longKeywords].join(', ')} />
       </head>
   <body className={`${inter.className} min-h-screen antialiased bg-[radial-gradient(circle_at_20%_20%,hsl(var(--secondary))_0%,transparent_60%),radial-gradient(circle_at_80%_70%,hsl(var(--muted))_0%,transparent_65%)] dark:bg-gradient-to-br dark:from-neutral-950 dark:via-neutral-950 dark:to-neutral-900 text-foreground transition-colors`}> 
         <ThemeProvider>
-          <Header />
-          <CommandPalette />
-          {children}
-          <JsonLd />
-          <Toaster />
-          <Footer />
+          <MotionProvider>
+            <Header />
+            <CommandPalette />
+            {children}
+            <JsonLd />
+            <Toaster />
+            <Footer />
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

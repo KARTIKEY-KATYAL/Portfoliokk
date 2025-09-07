@@ -28,16 +28,13 @@ const GithubStats = ({ username }: Props) => {
 
   useEffect(()=>{
     const ctrl = new AbortController();
-    const fetchGithubStats = async ()=>{
+    let idleId: number | null = null;
+    const run = async ()=>{
       try {
         const response = await fetch(`/api/github?username=${username}`, { signal: ctrl.signal, cache: 'force-cache' });
-        if(!response.ok){
-          throw new Error(`Error fetching data: ${response.status}`);
-        }
+        if(!response.ok) throw new Error(`Error fetching data: ${response.status}`);
         const data = await response.json();
-        if(!ctrl.signal.aborted){
-          setStats(data);
-        }
+        if(!ctrl.signal.aborted) setStats(data);
       } catch (error) {
         if (error instanceof Error && error.name === 'AbortError') return;
         setError("Failed to fetch GitHub stats");
@@ -45,9 +42,23 @@ const GithubStats = ({ username }: Props) => {
         if(!ctrl.signal.aborted) setLoading(false);
       }
     };
-    fetchGithubStats();
-    return () => ctrl.abort();
-  } , [username]);
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      idleId = (window as any).requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      const t = setTimeout(run, 300); // slight delay to prioritize main content
+      idleId = t as unknown as number;
+    }
+    return () => {
+      ctrl.abort();
+      if (idleId) {
+        if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+          (window as any).cancelIdleCallback(idleId);
+        } else {
+          clearTimeout(idleId);
+        }
+      }
+    };
+  }, [username]);
 
   // Memoized calculations (null-safe) executed every render to preserve hook order
   const { currentStreak, longestStreak, maxContributions, avgLast30, bestDayDate, days } = useMemo(()=>{
@@ -270,12 +281,12 @@ const GithubStats = ({ username }: Props) => {
               <div className="grid grid-rows-1 grid-flow-col gap-1 min-w-[540px]">
                 <TooltipProvider>
                   <AnimatePresence mode="popLayout">
-                  {timeframeData.map((day , index)=>(
+          {timeframeData.map((day , index)=>(
                     <motion.div
                       layout
                       key={day.date}
-                      initial={{scale:0, opacity:0}}
-                      animate={{scale:1, opacity:1}}
+            initial={{scale:0, opacity:0}}
+            animate={{scale:1, opacity:1}}
                       exit={{scale:0, opacity:0}}
                       transition={{delay:index * 0.012, type:'spring', stiffness:220, damping:18}}
                     > 
@@ -285,7 +296,7 @@ const GithubStats = ({ username }: Props) => {
                             className={cn(
                               "h-6 w-6 sm:h-7 sm:w-7 rounded-md ring-1 ring-border/20 shadow-sm hover:shadow-md", 
                               getContributionLevel(day.count),
-                              "transition-all duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                "transition-all duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 relative overflow-hidden"
                             )}
                             aria-label={`${day.count} contributions on ${new Date(day.date).toLocaleDateString(undefined,{month:'short', day:'numeric'})}`}
                             role="button"

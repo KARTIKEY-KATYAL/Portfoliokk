@@ -51,7 +51,17 @@ export default function Experience() {
         description="A snapshot of roles, impact, and the technologies I use to ship value."
       />
       <div className="relative mx-auto max-w-4xl">
-        <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-border to-transparent md:left-1/2" />
+        <div className="absolute left-4 top-0 bottom-0 w-px md:left-1/2 overflow-hidden">
+          <motion.span
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/40 to-transparent"
+            initial={{ translateY: '-100%' }}
+            whileInView={{ translateY: '100%' }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 3.5, ease: 'linear', repeat: Infinity, repeatType: 'loop' }}
+          />
+          <span className="absolute inset-0 bg-gradient-to-b from-transparent via-border to-transparent" />
+        </div>
         <ul className="space-y-16 md:space-y-24">
           {data.map((item: ExperienceItem, i) => {
             const isRight = i % 2 === 0;
@@ -68,8 +78,22 @@ export default function Experience() {
                   whileHover={{ y: shouldReduce ? 0 : -4 }}
                 >
                   <div className={`hidden md:block absolute top-6 h-4 w-4 rounded-full bg-primary/70 ring-4 ring-background/80 backdrop-blur ${isRight ? "-left-[34px]" : "-right-[34px]"}`} />
-                  <div className="rounded-2xl p-[2px] bg-gradient-to-br from-primary/20 via-primary/5 to-transparent">
-                    <Card className="rounded-2xl border-border/10 bg-card/80 backdrop-blur-xl p-6">
+                  <div className="rounded-2xl p-[2px] bg-gradient-to-br from-primary/25 via-primary/5 to-transparent group/card relative overflow-hidden">
+                    <motion.span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity"
+                      initial={false}
+                      whileHover={!shouldReduce ? { opacity: 1 } : {}}
+                    >
+                      {!shouldReduce && (
+                        <motion.span
+                          className="absolute -inset-10 bg-[radial-gradient(circle_at_center,hsla(var(--primary-hue,0)_84%_60%/.25),transparent_60%)] mix-blend-overlay"
+                          animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.65, 0.4] }}
+                          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                        />
+                      )}
+                    </motion.span>
+                    <Card className="rounded-2xl border-border/10 bg-card/80 backdrop-blur-xl p-6 relative">
                       <div className="mb-3 flex flex-wrap items-center gap-3">
                         <Briefcase className="h-4 w-4 text-primary" />
                         <h3 className="text-lg font-semibold leading-tight">{item.role}</h3>

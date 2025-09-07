@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { fadeStagger, fadeUp } from "@/lib/motion";
 import { projects } from "@/constants";
 import { Card } from "../ui/card";
 import Image from "next/image";
@@ -13,28 +14,14 @@ const Projects = () => {
   // Removed unused testimonials carousel for lean bundle
 
   const shouldReduce = useReducedMotion();
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.15,
-      },
-    },
-  };
+  const containerVariants = fadeStagger(0.07, 0.12);
   const cardVariants = {
-    hidden: { opacity: 0, y: shouldReduce ? 0 : 24, scale: shouldReduce ? 1 : 0.96 },
-    show: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { type: "spring", stiffness: 260, damping: 24 },
-    },
+    hidden: { opacity: 0, y: shouldReduce ? 0 : 22, scale: shouldReduce ? 1 : 0.95 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 250, damping: 26 } }
   };
 
   return (
-    <Section id="projects">
+  <Section id="projects" className="[content-visibility:auto] [contain-intrinsic-size:900px]">
       <SectionHeader
         title="Featured Projects"
         highlight="Projects"
@@ -54,15 +41,17 @@ const Projects = () => {
             whileHover={{ y: shouldReduce ? 0 : -6 }}
             whileTap={{ scale: shouldReduce ? 1 : 0.98 }}
           >
-            <div className="rounded-2xl p-[2px] will-change-transform bg-gradient-to-br from-primary/20 via-primary/5 to-transparent">
-            <Card className="group overflow-hidden rounded-2xl border-border/10 bg-card/80 backdrop-blur-xl hover:shadow-[0_0_0_1px_hsl(var(--primary))] transition-all duration-300 relative">
+            <div className="rounded-2xl p-[2px] will-change-transform bg-gradient-to-br from-primary/20 via-primary/5 to-transparent perspective-1000">
+            <Card className="group overflow-hidden rounded-2xl border-border/10 bg-card/80 backdrop-blur-xl hover:shadow-[0_0_0_1px_hsl(var(--primary))] transition-all duration-300 relative [transform-style:preserve-3d]">
               <div className="relative overflow-hidden aspect-video">
                 <Image
                   src={project.image}
                   alt={project.title}
                   width={800}
                   height={600}
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                  decoding="async"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700 will-change-transform"
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4 backdrop-blur-[2px]">
                   <Button asChild variant={"secondary"} size={"sm"}>

@@ -20,7 +20,7 @@ const Contact = () => {
         title="Let's Connect"
         highlight="Connect"
         description="I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions."
-        align="start"
+        align="center"
         className="mb-10 md:mb-6"
       />
   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
