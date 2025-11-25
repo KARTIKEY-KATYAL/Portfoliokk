@@ -24,7 +24,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "relative w-full overflow-hidden py-20",
+        "relative w-full overflow-hidden py-12 md:py-20",
         className
       )}
       {...rest}

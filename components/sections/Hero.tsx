@@ -34,7 +34,7 @@ const Hero = () => {
     <section
       id="hero"
       aria-label="Intro section"
-      className="relative isolate flex min-h-screen w-full flex-col justify-center overflow-hidden pt-24 md:pt-28 pb-16 md:pb-24"
+      className="relative isolate flex min-h-screen w-full flex-col justify-center overflow-hidden pt-20 md:pt-28 pb-12 md:pb-24"
     >
       {/* Layer 1: gradient backdrop for subtle base tone */}
       <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_30%_40%,hsl(var(--primary)/0.15),transparent_60%)]" />
@@ -78,8 +78,8 @@ const Hero = () => {
       </div>
 
       {/* Decorative radial glows */}
-      <div className="pointer-events-none absolute -top-40 -left-40 size-[32rem] rounded-full bg-primary/5 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-52 -right-40 size-[34rem] rounded-full bg-primary/10 blur-[140px]" />
+      <div className="pointer-events-none absolute -top-40 -left-40 size-[20rem] md:size-[32rem] rounded-full bg-primary/5 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-52 -right-40 size-[22rem] md:size-[34rem] rounded-full bg-primary/10 blur-[140px]" />
 
       <div className="container relative z-10 mx-auto px-4">
         <div className="grid grid-cols-1 items-center gap-14 md:gap-20 md:grid-cols-2">
@@ -173,7 +173,7 @@ const Hero = () => {
               animate="show"
               className="w-full"
             >
-              <BentoGrid className="auto-rows-[12rem] md:auto-rows-[11rem] grid-cols-2 md:grid-cols-3">
+              <BentoGrid className="auto-rows-[12rem] md:auto-rows-[11rem] grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 <motion.div
                   variants={childFade}
                   className="col-span-1 md:col-span-1"
