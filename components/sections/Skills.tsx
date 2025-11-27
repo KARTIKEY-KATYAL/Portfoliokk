@@ -7,13 +7,8 @@ import Image from 'next/image'
 import { Section, SectionHeader } from '@/components/layout/section';
 
 const Skills = () => {
-  // Removed unused people demo array; technologies constant drives UI
-  
   const shouldReduce = useReducedMotion();
-  // Ref specifically targets the list element for scroll-based transforms
   const ref = React.useRef<HTMLUListElement | null>(null);
-  // Helper to safely use offset without polluting file with `any`.
-  // TS types for useScroll may not yet include `offset`; suppress locally.
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -56,20 +51,6 @@ const Skills = () => {
               tabIndex={0}
               aria-label={tech.name}
             >
-              <span className='absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-br from-primary/15 via-transparent to-transparent pointer-events-none'/>
-              {/* animated subtle sweep */}
-              {!shouldReduce && (
-                <span className="pointer-events-none absolute -inset-1 rounded-xl opacity-0 group-hover:opacity-40 [mask-image:radial-gradient(circle_at_center,white,transparent_70%)]">
-                  <motion.span
-                    aria-hidden
-                    className="absolute inset-0 block bg-[conic-gradient(from_0deg,var(--tw-gradient-stops))] from-primary/0 via-primary/40 to-primary/0"
-                    initial={{ rotate: 0, scale: 1.1 }}
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 6, ease: 'linear' }}
-                    style={{ mixBlendMode: 'overlay', filter: 'blur(12px)' }}
-                  />
-                </span>
-              )}
               <Image
                 src={tech.logo}
                 alt={tech.name}

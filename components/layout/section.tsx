@@ -2,13 +2,10 @@
 import * as React from "react";
 import { fadeInSoft } from "@/lib/motion";
 import { Reveal } from "@/components/ui/reveal";
-import { BackgroundBeams } from "@/components/ui/background-beams";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { cn } from "@/lib/utils";
 
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   id: string;
-  disableBeams?: boolean;
   containerClassName?: string;
 }
 
@@ -16,7 +13,6 @@ export function Section({
   id,
   className,
   children,
-  disableBeams = false,
   containerClassName,
   ...rest
 }: SectionProps) {
@@ -29,11 +25,6 @@ export function Section({
       )}
       {...rest}
     >
-      {!disableBeams && (
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(circle_at_center,white,transparent_85%)]">
-          <BackgroundBeams />
-        </div>
-      )}
       <div className={cn("container mx-auto px-4", containerClassName)}>
         {children}
       </div>
@@ -82,8 +73,7 @@ export function SectionHeader({
       variants={fadeInSoft}
       once={motionOnce}
     >
-      <BackgroundGradient className="group rounded-3xl border border-border/40 bg-background/70 p-8 md:p-10 backdrop-blur-xl relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 [mask-image:radial-gradient(circle_at_center,white,transparent_75%)] bg-[radial-gradient(circle_at_30%_40%,hsl(var(--primary)/0.18),transparent_60%),radial-gradient(circle_at_70%_65%,hsl(var(--primary)/0.12),transparent_55%)]" />
+      <div className="group rounded-3xl border border-border/40 bg-card p-8 md:p-10 relative overflow-hidden">
         <h2 className="relative mb-4 text-3xl font-bold sm:text-4xl md:text-5xl tracking-tight">
           {renderedTitle}
         </h2>
@@ -93,7 +83,7 @@ export function SectionHeader({
             align === "center" && "mx-auto max-w-2xl"
           )}>{description}</p>
         )}
-      </BackgroundGradient>
+      </div>
     </Reveal>
   );
 }

@@ -142,7 +142,7 @@ const GithubStats = ({ username }: Props) => {
   if(!stats) return null; // after hooks so order stable
 
   return (
-    <Card className="relative p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-background/80 via-background/60 to-background/40 border-border/50 backdrop-blur-xl overflow-hidden group">
+    <Card className="relative p-4 sm:p-6 lg:p-8 bg-card border-border/50 backdrop-blur-xl overflow-hidden group">
       {/* decorative blur / glow */}
       <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/10 blur-3xl transition-opacity group-hover:opacity-70" />
       <motion.div
@@ -268,7 +268,7 @@ const GithubStats = ({ username }: Props) => {
                   animate={{ pathLength:1 }}
                   transition={{ duration: 1.2, ease: 'easeInOut' }}
                 />
-                {/* gradient area */}
+                {/* gradient area removed */}
                 {sparklinePath && (
                   <motion.path
                     d={`${sparklinePath} L120,36 L0,36 Z`}

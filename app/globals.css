@@ -11,7 +11,7 @@
     --card-foreground: 222.2 47.4% 11.2%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
-    --primary: 0 72% 50%; /* slightly deeper red for better AA */
+    --primary: 0 72% 50%; /* Solid Red */
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.5%; /* soft subtle blue-gray */
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -113,20 +113,7 @@
 }
 
 /* Subtle shimmer (used for skeletons) */
-.shimmer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    110deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.15) 45%,
-    rgba(255, 255, 255, 0.05) 55%,
-    transparent 70%
-  );
-  transform: translateX(-100%);
-  animation: shimmer 2s infinite;
-}
+/* Shimmer removed for solid theme */
 @keyframes shimmer {
   to {
     transform: translateX(100%);
@@ -165,36 +152,15 @@
 }
 
 /* Layered gradient helper backgrounds */
+/* Gradient subtle removed */
 .gradient-subtle {
-  background: linear-gradient(
-      140deg,
-      hsl(var(--primary) / 0.08),
-      transparent 60%
-    ),
-    radial-gradient(
-      circle at 70% 30%,
-      hsl(var(--primary) / 0.12),
-      transparent 55%
-    );
+  background: transparent;
 }
 
 /* Button sheen via pseudo element */
+/* Button sheen removed */
 .btn-sheen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.25) 35%,
-    rgba(255, 255, 255, 0) 70%
-  );
-  transform: translateX(-60%) skewX(-18deg);
-  animation: button-sheen 4s linear infinite;
-  pointer-events: none;
-  mask-image: linear-gradient(-60deg, transparent, black, transparent);
-  transition: opacity 0.5s ease;
+  display: none;
 }
 .btn-sheen:hover::after {
   opacity: 0.7;

@@ -75,7 +75,7 @@ export default function RootLayout({
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="keywords" content={[...siteConfig.keywords, ...siteConfig.longKeywords].join(', ')} />
       </head>
-  <body className={`${inter.className} min-h-screen antialiased bg-[radial-gradient(circle_at_20%_20%,hsl(var(--secondary))_0%,transparent_60%),radial-gradient(circle_at_80%_70%,hsl(var(--muted))_0%,transparent_65%)] dark:bg-gradient-to-br dark:from-neutral-950 dark:via-neutral-950 dark:to-neutral-900 text-foreground transition-colors`}> 
+  <body className={`${inter.className} min-h-screen antialiased bg-background text-foreground transition-colors`} suppressHydrationWarning> 
         <ThemeProvider>
           <MotionProvider>
             <Header />

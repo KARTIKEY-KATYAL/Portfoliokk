@@ -1,90 +1,48 @@
 "use client";
 import { motion } from "framer-motion";
 import React from "react";
-import dynamic from "next/dynamic";
-import { Button } from "@/components/ui/button";
-import { Github, Mail, Code2, Cpu, Zap, Rocket } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Vortex } from "@/components/ui/vortex";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
-import { BackgroundBeams } from "@/components/ui/background-beams";
-import { useInViewOnce } from "@/hooks/use-in-view-once";
+import { Button } from "@/components/ui/button";
 import {
   fadeLeft,
   fadeRight,
-  fastFade,
   floatLoop,
-  listStagger,
-  childFade,
 } from "@/lib/motion";
-import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { BackgroundLines } from "@/components/ui/background-lines";
+import { SparklesCore } from "@/components/ui/sparkles";
 
-// Lazy load particles/sparkles client-side only
-const Sparkles = dynamic(
-  () => import("@/components/ui/sparkles").then((m) => m.SparklesCore),
-  { ssr: false }
-);
 
 const Hero = () => {
   // Removed unused animated word effects to streamline bundle & resolve lint warnings
 
-  const { ref, inView } = useInViewOnce<HTMLDivElement>({ threshold: 0.45 });
   return (
     <section
       id="hero"
       aria-label="Intro section"
       className="relative isolate flex min-h-screen w-full flex-col justify-center overflow-hidden pt-20 md:pt-28 pb-12 md:pb-24"
     >
-      {/* Layer 1: gradient backdrop for subtle base tone */}
-      <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_30%_40%,hsl(var(--primary)/0.15),transparent_60%)]" />
-
-      {/* Layer 2: Background Beams replacement for Boxes */}
-      <div className="pointer-events-none absolute inset-0 -z-20 opacity-50 [mask-image:radial-gradient(circle_at_center,white,transparent_80%)]">
-        <BackgroundBeams />
-      </div>
-
-      {/* Layer 3: Vortex animated particles (lazy activated) */}
-      {inView && (
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 hidden sm:block"
-          ref={ref}
-        >
-          <Vortex
-            particleCount={260}
-            rangeY={120}
-            baseRadius={0.45}
-            rangeRadius={1.0}
-            baseSpeed={0.12}
-            rangeSpeed={0.8}
-            backgroundColor="transparent"
-            containerClassName="h-full w-full"
+      {/* Layer 1: gradient backdrop for subtle base tone */ }
+      {/* Removed gradients for solid theme */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <SparklesCore
+            id="tsparticlesfullpage"
+            background="transparent"
+            minSize={0.6}
+            maxSize={1.4}
+            particleDensity={100}
+            className="w-full h-full"
+            particleColor="var(--primary)"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/40 to-background" />
-        </div>
-      )}
-
-      {/* Layer 4: Sparkles (particles) - lightweight & animated client-side */}
-      <div className="pointer-events-none absolute inset-0 -z-10 mix-blend-screen opacity-[0.55] [mask-image:radial-gradient(circle_at_center,white,transparent_70%)]">
-        <Sparkles
-          particleColor="hsl(var(--primary))"
-          particleDensity={95}
-          speed={3.5}
-          minSize={0.4}
-          maxSize={2.2}
-          className="h-full w-full"
-          background="transparent"
-        />
       </div>
-
-      {/* Decorative radial glows */}
-      <div className="pointer-events-none absolute -top-40 -left-40 size-[20rem] md:size-[32rem] rounded-full bg-primary/5 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-52 -right-40 size-[22rem] md:size-[34rem] rounded-full bg-primary/10 blur-[140px]" />
+      <BackgroundLines className="absolute inset-0 z-0 w-full h-full">
 
       <div className="container relative z-10 mx-auto px-4">
         <div className="grid grid-cols-1 items-center gap-14 md:gap-20 md:grid-cols-2">
           <motion.div variants={fadeRight} initial="hidden" animate="show">
-            <BackgroundGradient className="relative rounded-3xl border border-border/40 bg-background/70 p-8 md:p-10 backdrop-blur-xl">
+            <div className="relative rounded-3xl border border-border/40 bg-card p-8 md:p-10">
               <span className="mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1 text-xs font-medium tracking-wide text-primary/90 shadow-sm backdrop-blur-sm">
                 <span className="size-2 rounded-full bg-primary animate-pulse" />{" "}
                 Open to opportunities
@@ -98,16 +56,10 @@ const Hero = () => {
                 Hi, I&apos;m{" "}
                 <span className="text-primary">Kartikey Katyal</span>
               </motion.h1>
-              <motion.p
-                variants={fastFade}
-                initial="hidden"
-                animate="show"
+              <TextGenerateEffect
+                words="Full Stack Developer focused on building performant, accessible & delightful web experiences using modern TypeScript / React stacks."
                 className="mb-8 max-w-xl text-sm sm:text-base text-muted-foreground md:text-xl leading-relaxed"
-              >
-                Full Stack Developer focused on building performant, accessible
-                & delightful web experiences using modern TypeScript / React
-                stacks.
-              </motion.p>
+              />
               <div className="mb-10 flex flex-wrap gap-3">
                 {[
                   "Next.js",
@@ -125,25 +77,24 @@ const Hero = () => {
                 ))}
               </div>
               <div className="flex flex-wrap gap-4">
-                <Button className="gap-2" asChild>
-                  <a href="#contact">
-                    <Mail className="h-4 w-4" />
-                    Contact Me
-                  </a>
-                </Button>
+                <Link href="#contact">
+                    <Button className="rounded-full px-8">
+                        <Mail className="mr-2 h-4 w-4" />
+                        Contact Me
+                    </Button>
+                </Link>
                 <Link
                   href="https://github.com/KARTIKEY-KATYAL"
                   target="_blank"
                   aria-label="Github profile"
                 >
-                  <Button className="gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                    <Github className="h-4 w-4" />
-                    Github
-                  </Button>
+                    <Button variant="outline" className="rounded-full px-8">
+                        <Github className="mr-2 h-4 w-4" />
+                        Github
+                    </Button>
                 </Link>
               </div>
-              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
-            </BackgroundGradient>
+            </div>
           </motion.div>
           <div className="relative flex flex-col items-center gap-10">
             <motion.div
@@ -153,8 +104,7 @@ const Hero = () => {
               className="relative"
             >
               <div className="group relative">
-                <div className="absolute -inset-6 -z-10 rounded-full bg-gradient-to-tr from-primary/30 via-purple-500/20 to-transparent blur-3xl transition-opacity group-hover:opacity-90" />
-                <div className="absolute inset-0 -z-10 animate-pulse rounded-full bg-primary/10 mix-blend-overlay" />
+                {/* Removed gradient blobs */}
                 <Image
                   src="/hero.svg"
                   alt="Developer Illustration with abstract shapes"
@@ -162,67 +112,14 @@ const Hero = () => {
                   height={520}
                   priority
                   className="relative drop-shadow-2xl will-change-transform motion-safe:group-hover:scale-[1.018] transition-transform duration-700"
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
-            </motion.div>
-
-            {/* Bento highlight grid */}
-            <motion.div
-              variants={listStagger(0.1, 0.12)}
-              initial="hidden"
-              animate="show"
-              className="w-full"
-            >
-              <BentoGrid className="auto-rows-[12rem] md:auto-rows-[11rem] grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                <motion.div
-                  variants={childFade}
-                  className="col-span-1 md:col-span-1"
-                >
-                  <BentoCard
-                    title="Performance"
-                    description="Lighthouse 95+ focus"
-                    icon={<Zap className="w-5 h-5" />}
-                    className="bg-gradient-to-br from-primary/10 via-background to-background/60"
-                  />
-                </motion.div>
-                <motion.div
-                  variants={childFade}
-                  className="col-span-1 md:col-span-1"
-                >
-                  <BentoCard
-                    title="DX & Tooling"
-                    description="TS-first, CI-ready"
-                    icon={<Code2 className="w-5 h-5" />}
-                    className="bg-gradient-to-br from-background via-primary/5 to-background"
-                  />
-                </motion.div>
-                <motion.div
-                  variants={childFade}
-                  className="col-span-2 md:col-span-1"
-                >
-                  <BentoCard
-                    title="Systems"
-                    description="APIs, infra & scaling"
-                    icon={<Cpu className="w-5 h-5" />}
-                    className="bg-gradient-to-br from-primary/5 to-background"
-                  />
-                </motion.div>
-                <motion.div
-                  variants={childFade}
-                  className="col-span-1 hidden md:block"
-                >
-                  <BentoCard
-                    title="Ship Fast"
-                    description="Rapid iteration"
-                    icon={<Rocket className="w-5 h-5" />}
-                    className="bg-gradient-to-br from-background to-primary/5"
-                  />
-                </motion.div>
-              </BentoGrid>
             </motion.div>
           </div>
         </div>
       </div>
+      </BackgroundLines>
     </section>
   );
 };
